@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DROP">
+<title>DROP // checkout dashboard</title>
+<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkRST1AgLy8gY2hlY2tvdXQgZGFzaGJvYXJkIiwKICAic2hvcnRfbmFtZSI6ICJEUk9QIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYTBhMGEiLAogICJ0aGVtZV9jb2xvciI6ICIjMGEwYTBhIiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDUxMiA1MTInJTNFJTNDcmVjdCB3aWR0aD0nNTEyJyBoZWlnaHQ9JzUxMicgZmlsbD0nJTIzMGEwYTBhJy8lM0UlM0N0ZXh0IHg9JzUwJTI1JyB5PSc1NSUyNScgZm9udC1mYW1pbHk9J21vbm9zcGFjZScgZm9udC1zaXplPScxNjAnIGZvbnQtd2VpZ2h0PSc5MDAnIGZpbGw9JyUyM2ZmYWEwMCcgdGV4dC1hbmNob3I9J21pZGRsZScgZG9taW5hbnQtYmFzZWxpbmU9J21pZGRsZSclM0VEUlAlM0MvdGV4dCUzRSUzQy9zdmclM0UiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiLAogICAgICAicHVycG9zZSI6ICJhbnkiCiAgICB9CiAgXQp9">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0a0a'/%3E%3Ctext x='50%25' y='55%25' font-family='monospace' font-size='60' font-weight='900' fill='%23ffaa00' text-anchor='middle' dominant-baseline='middle'%3E▼%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230a0a0a'/%3E%3Ctext x='50%25' y='58%25' font-family='monospace' font-size='110' font-weight='900' fill='%23ffaa00' text-anchor='middle' dominant-baseline='middle'%3E▼%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ee; --bg-elevated: #ffffff; --bg-sunk: #ebe8e1;
+    --border: #1a1a1a; --border-soft: rgba(26,26,26,0.12);
+    --ink: #0a0a0a; --ink-dim: #6b6b6b; --ink-faint: #9a9a9a;
+    --accent: #d97706; --accent-bg: #fef3c7;
+    --live: #15803d; --live-bg: #dcfce7;
+    --danger: #b91c1c; --danger-bg: #fee2e2;
+    --warn: #c2410c; --warn-bg: #ffedd5;
+    --shadow: 4px 4px 0 var(--ink); --shadow-sm: 2px 2px 0 var(--ink);
+  }
+  [data-theme="dark"] {
+    --bg: #0a0a0a; --bg-elevated: #161616; --bg-sunk: #1f1f1f;
+    --border: #ffaa00; --border-soft: rgba(255,170,0,0.2);
+    --ink: #f5f3ee; --ink-dim: #a8a8a8; --ink-faint: #6b6b6b;
+    --accent: #ffaa00; --accent-bg: rgba(255,170,0,0.12);
+    --live: #4ade80; --live-bg: rgba(74,222,128,0.12);
+    --danger: #f87171; --danger-bg: rgba(248,113,113,0.12);
+    --warn: #fb923c; --warn-bg: rgba(251,146,60,0.12);
+    --shadow: 4px 4px 0 var(--accent); --shadow-sm: 2px 2px 0 var(--accent);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: 'Space Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+  body { background-image: linear-gradient(var(--border-soft) 1px, transparent 1px), linear-gradient(90deg, var(--border-soft) 1px, transparent 1px); background-size: 32px 32px; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .app { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+
+  .header { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; padding-bottom: 1.25rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); flex-wrap: wrap; }
+  .brand { display: flex; align-items: baseline; gap: 0.75rem; }
+  .brand-mark { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 2.25rem; letter-spacing: -0.05em; line-height: 1; color: var(--accent); }
+  .brand-name { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 1.75rem; letter-spacing: -0.03em; line-height: 1; }
+  .brand-sub { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-dim); margin-left: 0.25rem; align-self: center; }
+  .header-actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+
+  .status-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin-bottom: 1.5rem; border: 2px solid var(--border); background: var(--bg-elevated); }
+  .stat { padding: 0.875rem 1rem; border-right: 1px solid var(--border-soft); }
+  .stat:last-child { border-right: none; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-dim); margin-bottom: 0.25rem; }
+  .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+  .stat-value.accent { color: var(--accent); }
+  .stat-value.live { color: var(--live); }
+
+  .toolbar { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap; align-items: center; }
+  .filters { display: flex; gap: 0; border: 2px solid var(--border); background: var(--bg-elevated); }
+  .filter-btn { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.5rem 0.875rem; background: transparent; border: none; border-right: 1px solid var(--border-soft); color: var(--ink); cursor: pointer; }
+  .filter-btn:last-child { border-right: none; }
+  .filter-btn:hover { background: var(--bg-sunk); }
+  .filter-btn.active { background: var(--ink); color: var(--bg); }
+  [data-theme="dark"] .filter-btn.active { background: var(--accent); color: var(--bg); }
+  .toolbar-spacer { flex: 1; }
+
+  .btn { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.5rem 0.875rem; background: var(--bg-elevated); color: var(--ink); border: 2px solid var(--border); cursor: pointer; transition: transform 0.08s, box-shadow 0.08s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
+  .btn:hover { transform: translate(-1px,-1px); box-shadow: var(--shadow-sm); }
+  .btn:active { transform: translate(0,0); box-shadow: none; }
+  .btn-primary { background: var(--accent); color: #0a0a0a; }
+  .btn-ghost { background: transparent; border-color: var(--border-soft); }
+  .btn-ghost:hover { border-color: var(--border); }
+  .btn-icon { padding: 0.5rem 0.625rem; }
+  .btn-sm { padding: 0.375rem 0.625rem; font-size: 0.7rem; }
+
+  .add-form { background: var(--bg-elevated); border: 2px solid var(--border); padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+  .form-title { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .form-title::before { content: "▸"; }
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+  @media (min-width: 600px) {
+    .form-grid { grid-template-columns: 1fr 1fr; }
+    .form-grid .full { grid-column: 1 / -1; }
+  }
+  .field { display: flex; flex-direction: column; gap: 0.3rem; }
+  .field label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-dim); }
+  input[type="text"], input[type="url"], input[type="datetime-local"], select, textarea { width: 100%; padding: 0.625rem 0.75rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; background: var(--bg); color: var(--ink); border: 1.5px solid var(--border-soft); border-radius: 0; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 60px; }
+  .form-actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+
+  .drops { display: flex; flex-direction: column; gap: 1rem; }
+  .drop { background: var(--bg-elevated); border: 2px solid var(--border); padding: 1.25rem; position: relative; }
+  .drop.imminent { border-color: var(--warn); box-shadow: var(--shadow); animation: pulse 2s infinite; }
+  .drop.live { border-color: var(--live); box-shadow: 4px 4px 0 var(--live); }
+  @keyframes pulse { 0%, 100% { box-shadow: 4px 4px 0 var(--warn); } 50% { box-shadow: 6px 6px 0 var(--warn); } }
+
+  .drop-tag { position: absolute; top: -1px; right: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; padding: 0.2rem 0.625rem; background: var(--ink); color: var(--bg); }
+  [data-theme="dark"] .drop-tag { background: var(--accent); color: #0a0a0a; }
+
+  .drop-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; padding-right: 5rem; }
+  .drop-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.25rem; }
+  .drop-source { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-dim); }
+
+  .countdown-block { text-align: right; flex-shrink: 0; }
+  .countdown { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 800; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .countdown.warn { color: var(--warn); }
+  .countdown.live { color: var(--live); animation: blink 1s infinite; }
+  .countdown.past { color: var(--ink-faint); font-size: 0.9rem; }
+  .countdown-label { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-dim); margin-top: 0.25rem; }
+  @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.4; } }
+
+  @media (max-width: 500px) {
+    .drop-head { flex-direction: column; padding-right: 0; }
+    .countdown-block { text-align: left; }
+    .drop-tag { position: static; display: inline-block; margin-bottom: 0.5rem; }
+  }
+
+  .drop-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--ink-dim); margin-bottom: 0.875rem; display: flex; align-items: center; gap: 0.5rem; }
+  .drop-meta::before { content: "◆"; color: var(--accent); }
+  .drop-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .checklist { background: var(--bg-sunk); border: 1px solid var(--border-soft); padding: 0.75rem 1rem; margin-bottom: 0.875rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem 1rem; }
+  .check-item { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.8rem; user-select: none; }
+  .check-item input { display: none; }
+  .check-box { width: 16px; height: 16px; border: 1.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 800; color: var(--accent); flex-shrink: 0; background: var(--bg-elevated); }
+  .check-item input:checked + .check-box::after { content: "✕"; }
+  .check-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .notes-field { width: 100%; background: transparent; border: 1px dashed var(--border-soft); padding: 0.5rem 0.75rem; font-size: 0.85rem; font-family: 'Space Grotesk', sans-serif; color: var(--ink); resize: vertical; min-height: 36px; }
+  .notes-field:focus { border-style: solid; border-color: var(--accent); }
+  .empty { text-align: center; padding: 4rem 1rem; border: 2px dashed var(--border-soft); background: var(--bg-elevated); }
+  .empty-mark { font-family: 'JetBrains Mono', monospace; font-size: 3rem; color: var(--ink-faint); margin-bottom: 0.5rem; }
+  .empty-text { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-dim); }
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
+  .modal-backdrop.open { display: flex; }
+  .modal { background: var(--bg-elevated); border: 2px solid var(--border); box-shadow: var(--shadow); padding: 1.5rem; max-width: 420px; width: 100%; }
+  .modal-title { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; color: var(--accent); }
+  .modal-actions { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+  .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-soft); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--ink-faint); text-align: center; letter-spacing: 0.05em; }
+  .footer a { color: var(--accent); text-decoration: none; }
+  .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--ink); color: var(--bg); padding: 0.625rem 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; border: 2px solid var(--accent); transition: transform 0.25s; z-index: 200; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .hidden { display: none !important; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  @media (max-width: 500px) {
+    .brand-mark { font-size: 1.75rem; }
+    .brand-name { font-size: 1.35rem; }
+    .brand-sub { display: none; }
+    .stat-value { font-size: 1.15rem; }
+    .stat { padding: 0.625rem 0.75rem; }
+    .app { padding: 1rem 0.75rem 3rem; }
+    .drop { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+<h1 class="sr-only">DROP — limited release checkout dashboard</h1>
+
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <span class="brand-mark">▼</span>
+      <span class="brand-name">DROP</span>
+      <span class="brand-sub">// checkout dashboard</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost btn-icon" id="theme-toggle" aria-label="Toggle theme">☼</button>
+      <button class="btn btn-ghost btn-sm" id="notify-btn">⚐ alerts</button>
+      <button class="btn btn-ghost btn-sm" id="export-btn">↓ export</button>
+      <button class="btn btn-ghost btn-sm" id="import-btn">↑ import</button>
+      <input type="file" id="import-file" accept=".json" class="hidden">
+      <button class="btn btn-primary" id="add-btn">+ new drop</button>
+    </div>
+  </header>
+
+  <section class="status-bar" aria-label="Status overview">
+    <div class="stat"><div class="stat-label">tracked</div><div class="stat-value mono" id="stat-total">0</div></div>
+    <div class="stat"><div class="stat-label">upcoming</div><div class="stat-value mono accent" id="stat-upcoming">0</div></div>
+    <div class="stat"><div class="stat-label">next drop</div><div class="stat-value mono" id="stat-next">—</div></div>
+    <div class="stat"><div class="stat-label">live now</div><div class="stat-value mono live" id="stat-live">0</div></div>
+  </section>
+
+  <div class="add-form hidden" id="add-form">
+    <div class="form-title" id="form-title-text">add new drop</div>
+    <div class="form-grid">
+      <div class="field full"><label for="f-title">item name</label><input type="text" id="f-title"></div>
+      <div class="field"><label for="f-source">source</label><input type="text" id="f-source"></div>
+      <div class="field"><label for="f-category">category</label>
+        <select id="f-category">
+          <option value="mattel">Mattel Creations</option>
+          <option value="snkrs">Nike / Jordan</option>
+          <option value="ticket">Concert / event</option>
+          <option value="lockcity">Lock City Drift</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field full"><label for="f-url">product url</label><input type="url" id="f-url"></div>
+      <div class="field full"><label for="f-account">account / cart url (optional)</label><input type="url" id="f-account"></div>
+      <div class="field full"><label for="f-time">drop time</label><input type="datetime-local" id="f-time"></div>
+      <div class="field full"><label for="f-notes">notes</label><textarea id="f-notes"></textarea></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="save-btn">save drop</button>
+      <button class="btn btn-ghost" id="cancel-btn">cancel</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="filters" role="tablist">
+      <button class="filter-btn active" data-filter="all">all</button>
+      <button class="filter-btn" data-filter="upcoming">upcoming</button>
+      <button class="filter-btn" data-filter="live">live</button>
+      <button class="filter-btn" data-filter="past">past</button>
+    </div>
+    <div class="toolbar-spacer"></div>
+  </div>
+
+  <div class="drops" id="drops-list"></div>
+
+  <footer class="footer">
+    [ local data, lives in your browser ] · <a href="#" id="reset-btn">factory reset</a>
+  </footer>
+</div>
+
+<div class="modal-backdrop" id="time-modal" role="dialog">
+  <div class="modal">
+    <div class="modal-title" id="time-modal-title">edit drop time</div>
+    <div class="field"><label for="modal-time">when does it drop?</label><input type="datetime-local" id="modal-time"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="modal-save">save</button>
+      <button class="btn btn-ghost" id="modal-clear">clear time</button>
+      <button class="btn btn-ghost" id="modal-cancel">cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+  const STORAGE_KEY = 'drop_app_v1_drops';
+  const CHECK_KEY = 'drop_app_v1_checks';
+  const THEME_KEY = 'drop_app_v1_theme';
+  const NOTIFIED_KEY = 'drop_app_v1_notified';
+
+  const defaultDrops = [
+    { id: 'd_seed_1', title: 'Mattel Creations launch calendar', source: 'Mattel Creations', category: 'mattel', url: 'https://creations.mattel.com/pages/launch-calendar', accountUrl: 'https://creations.mattel.com/account/login', time: null, notes: 'Check weekly for new drops. All drops at 9 AM PT.' },
+    { id: 'd_seed_2', title: 'Nike SNKRS — upcoming launches', source: 'Nike SNKRS', category: 'snkrs', url: 'https://www.nike.com/launch', accountUrl: 'https://www.nike.com/member/inbox', time: null, notes: 'Use the SNKRS app for actual entry. Raffle, not speed-based.' },
+    { id: 'd_seed_3', title: 'Lock City Drift — upcoming events', source: 'TheFOAT', category: 'lockcity', url: 'https://tickets.thefoat.com/LockCityDrift', accountUrl: 'https://tickets.thefoat.com/LockCityDrift', time: null, notes: 'Tickets typically drop 3 weeks before event. Next: August Heatwave (Aug 7-8).' },
+    { id: 'd_seed_4', title: 'Ticketmaster — account alerts', source: 'Ticketmaster', category: 'ticket', url: 'https://www.ticketmaster.com/myaccount', accountUrl: 'https://www.ticketmaster.com/myaccount', time: null, notes: 'Set artist alerts. Sign up for fan club / Amex / Citi presales.' }
+  ];
+
+  let drops = loadDrops();
+  let checks = loadChecks();
+  let notified = loadNotified();
+  let currentFilter = 'all';
+  let editingId = null;
+  let timeEditingId = null;
+
+  let audioCtx = null;
+  function playBeep() {
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const now = audioCtx.currentTime;
+      [880, 1175, 1568].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square'; osc.frequency.value = freq;
+        osc.connect(gain).connect(audioCtx.destination);
+        gain.gain.setValueAtTime(0, now + i * 0.15);
+        gain.gain.linearRampToValueAtTime(0.15, now + i * 0.15 + 0.02);
+        gain.gain.linearRampToValueAtTime(0, now + i * 0.15 + 0.18);
+        osc.start(now + i * 0.15);
+        osc.stop(now + i * 0.15 + 0.2);
+      });
+    } catch (e) {}
+  }
+
+  function loadDrops() {
+    try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); } catch (e) {}
+    saveDrops(defaultDrops); return defaultDrops;
+  }
+  function saveDrops(d) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d || drops)); } catch(e) {} }
+  function loadChecks() { try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); } catch(e) { return {}; } }
+  function saveChecks() { try { localStorage.setItem(CHECK_KEY, JSON.stringify(checks)); } catch(e) {} }
+  function loadNotified() { try { return JSON.parse(localStorage.getItem(NOTIFIED_KEY) || '{}'); } catch(e) { return {}; } }
+  function saveNotified() { try { localStorage.setItem(NOTIFIED_KEY, JSON.stringify(notified)); } catch(e) {} }
+
+  function initTheme() {
+    const saved = localStorage.getItem(THEME_KEY);
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = saved || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('theme-toggle').textContent = theme === 'dark' ? '☀' : '☾';
+  }
+  function toggleTheme() {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    document.getElementById('theme-toggle').textContent = next === 'dark' ? '☀' : '☾';
+    try { localStorage.setItem(THEME_KEY, next); } catch(e) {}
+  }
+
+  function escapeHtml(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function fmtCountdown(target) {
+    if (!target) return { text: 'no time set', cls: 'past', label: 'unscheduled' };
+    const diff = target - Date.now();
+    if (diff <= -3600000) return { text: 'past', cls: 'past', label: 'closed' };
+    if (diff <= 0) return { text: 'LIVE', cls: 'live', label: 'go go go' };
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    const pad = n => String(n).padStart(2, '0');
+    let text, cls = '';
+    if (d > 0) text = `${d}d ${pad(h)}:${pad(m)}:${pad(s)}`;
+    else text = `${pad(h)}:${pad(m)}:${pad(s)}`;
+    if (diff < 600000) cls = 'warn';
+    return { text, cls, label: 'until drop' };
+  }
+  function fmtTime(t) {
+    if (!t) return 'no scheduled time';
+    return new Date(t).toLocaleString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+  }
+  function categoryLabel(c) { return ({mattel:'mattel', snkrs:'snkrs', ticket:'ticket', lockcity:'lock city', other:'other'})[c] || c; }
+  function getStatus(d) {
+    if (!d.time) return 'upcoming';
+    const diff = d.time - Date.now();
+    if (diff > 0) return 'upcoming';
+    if (diff > -3600000) return 'live';
+    return 'past';
+  }
+
+  function renderStats() {
+    document.getElementById('stat-total').textContent = drops.length;
+    const upcoming = drops.filter(d => getStatus(d) === 'upcoming' && d.time).sort((a,b) => a.time - b.time);
+    const live = drops.filter(d => getStatus(d) === 'live');
+    document.getElementById('stat-upcoming').textContent = drops.filter(d => getStatus(d) === 'upcoming').length;
+    document.getElementById('stat-live').textContent = live.length;
+    if (upcoming.length > 0) document.getElementById('stat-next').textContent = fmtCountdown(upcoming[0].time).text;
+    else if (live.length > 0) document.getElementById('stat-next').textContent = 'LIVE';
+    else document.getElementById('stat-next').textContent = '—';
+  }
+
+  function render() {
+    renderStats();
+    const list = document.getElementById('drops-list');
+    let filtered = drops.slice();
+    if (currentFilter !== 'all') filtered = filtered.filter(d => getStatus(d) === currentFilter);
+    filtered.sort((a, b) => {
+      const sa = getStatus(a), sb = getStatus(b);
+      const order = {live: 0, upcoming: 1, past: 2};
+      if (sa !== sb) return order[sa] - order[sb];
+      if (!a.time && !b.time) return (b.addedAt || 0) - (a.addedAt || 0);
+      if (!a.time) return 1;
+      if (!b.time) return -1;
+      return a.time - b.time;
+    });
+
+    if (filtered.length === 0) {
+      list.innerHTML = `<div class="empty"><div class="empty-mark">∅</div><div class="empty-text">no drops in this view</div></div>`;
+      return;
+    }
+
+    list.innerHTML = filtered.map(d => {
+      const cd = fmtCountdown(d.time);
+      const status = getStatus(d);
+      const imminent = d.time && d.time - Date.now() < 600000 && d.time - Date.now() > 0;
+      const live = status === 'live';
+      const cardCls = live ? 'live' : (imminent ? 'imminent' : '');
+      const chk = checks[d.id] || {};
+      return `
+        <article class="drop ${cardCls}" data-id="${d.id}">
+          <span class="drop-tag">${escapeHtml(categoryLabel(d.category || 'other'))}</span>
+          <div class="drop-head">
+            <div style="flex: 1; min-width: 0;">
+              <h2 class="drop-title">${escapeHtml(d.title)}</h2>
+              <div class="drop-source">${escapeHtml(d.source || '—')}</div>
+            </div>
+            <div class="countdown-block">
+              <div class="countdown ${cd.cls}" data-time="${d.time || ''}">${cd.text}</div>
+              <div class="countdown-label">${cd.label}</div>
+            </div>
+          </div>
+          <div class="drop-meta">
+            <span>${escapeHtml(fmtTime(d.time))}</span>
+            <button class="btn btn-ghost btn-sm" data-edit-time="${d.id}" style="margin-left:auto;">⟳ edit time</button>
+          </div>
+          <div class="drop-actions">
+            ${d.url ? `<a class="btn btn-primary btn-sm" href="${escapeHtml(d.url)}" target="_blank" rel="noopener">→ product</a>` : ''}
+            ${d.accountUrl ? `<a class="btn btn-sm" href="${escapeHtml(d.accountUrl)}" target="_blank" rel="noopener">⌂ account</a>` : ''}
+            <button class="btn btn-ghost btn-sm" data-edit="${d.id}">✎ edit</button>
+            <button class="btn btn-ghost btn-sm" data-delete="${d.id}">✕ remove</button>
+          </div>
+          <div class="checklist">
+            ${['loggedIn', 'payment', 'address', 'cartReady'].map(k => {
+              const labels = { loggedIn: 'logged in', payment: 'payment saved', address: 'address saved', cartReady: 'cart-ready' };
+              return `<label class="check-item"><input type="checkbox" data-check="${k}" data-id="${d.id}" ${chk[k] ? 'checked' : ''}><span class="check-box"></span><span class="check-label">${labels[k]}</span></label>`;
+            }).join('')}
+          </div>
+          <textarea class="notes-field" data-notes="${d.id}" placeholder="notes (size, colorway, presale code, etc.)">${escapeHtml(d.notes || '')}</textarea>
+        </article>`;
+    }).join('');
+
+    list.querySelectorAll('[data-delete]').forEach(b => b.onclick = () => deleteDrop(b.getAttribute('data-delete')));
+    list.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => editDrop(b.getAttribute('data-edit')));
+    list.querySelectorAll('[data-edit-time]').forEach(b => b.onclick = () => openTimeModal(b.getAttribute('data-edit-time')));
+    list.querySelectorAll('[data-check]').forEach(cb => {
+      cb.onchange = () => {
+        const id = cb.getAttribute('data-id');
+        const k = cb.getAttribute('data-check');
+        checks[id] = checks[id] || {}; checks[id][k] = cb.checked; saveChecks();
+      };
+    });
+    list.querySelectorAll('[data-notes]').forEach(t => {
+      t.oninput = () => {
+        const id = t.getAttribute('data-notes');
+        const drop = drops.find(d => d.id === id);
+        if (drop) { drop.notes = t.value; saveDrops(); }
+      };
+    });
+  }
+
+  function showAddForm(editId) {
+    const form = document.getElementById('add-form');
+    form.classList.remove('hidden');
+    document.getElementById('form-title-text').textContent = editId ? 'edit drop' : 'add new drop';
+    if (editId) {
+      const d = drops.find(x => x.id === editId);
+      if (!d) return;
+      editingId = editId;
+      document.getElementById('f-title').value = d.title || '';
+      document.getElementById('f-source').value = d.source || '';
+      document.getElementById('f-category').value = d.category || 'other';
+      document.getElementById('f-url').value = d.url || '';
+      document.getElementById('f-account').value = d.accountUrl || '';
+      document.getElementById('f-time').value = d.time ? toDatetimeLocal(d.time) : '';
+      document.getElementById('f-notes').value = d.notes || '';
+    } else {
+      editingId = null;
+      ['f-title','f-source','f-url','f-account','f-time','f-notes'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('f-category').value = 'mattel';
+    }
+    document.getElementById('f-title').focus();
+    form.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }
+  function hideAddForm() { document.getElementById('add-form').classList.add('hidden'); editingId = null; }
+  function saveFromForm() {
+    const title = document.getElementById('f-title').value.trim();
+    if (!title) { toast('item name required'); return; }
+    const data = {
+      title,
+      source: document.getElementById('f-source').value.trim(),
+      category: document.getElementById('f-category').value,
+      url: document.getElementById('f-url').value.trim(),
+      accountUrl: document.getElementById('f-account').value.trim(),
+      time: document.getElementById('f-time').value ? new Date(document.getElementById('f-time').value).getTime() : null,
+      notes: document.getElementById('f-notes').value.trim()
+    };
+    if (editingId) {
+      const i = drops.findIndex(d => d.id === editingId);
+      if (i >= 0) drops[i] = Object.assign({}, drops[i], data);
+      toast('drop updated');
+    } else {
+      data.id = 'd_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+      data.addedAt = Date.now();
+      drops.push(data);
+      toast('drop added');
+    }
+    saveDrops(); hideAddForm(); render();
+  }
+  function editDrop(id) { showAddForm(id); }
+  function deleteDrop(id) {
+    if (!confirm('Remove this drop?')) return;
+    drops = drops.filter(d => d.id !== id);
+    delete checks[id];
+    saveDrops(); saveChecks(); render(); toast('drop removed');
+  }
+  function openTimeModal(id) {
+    timeEditingId = id;
+    const d = drops.find(x => x.id === id);
+    document.getElementById('modal-time').value = d && d.time ? toDatetimeLocal(d.time) : '';
+    document.getElementById('time-modal').classList.add('open');
+    setTimeout(() => document.getElementById('modal-time').focus(), 50);
+  }
+  function closeTimeModal() { document.getElementById('time-modal').classList.remove('open'); timeEditingId = null; }
+  function saveModalTime() {
+    if (!timeEditingId) return;
+    const val = document.getElementById('modal-time').value;
+    const drop = drops.find(d => d.id === timeEditingId);
+    if (drop) {
+      drop.time = val ? new Date(val).getTime() : null;
+      if (drop.time) delete notified[drop.id];
+      saveDrops(); saveNotified();
+    }
+    closeTimeModal(); render(); toast('time updated');
+  }
+  function clearModalTime() {
+    if (!timeEditingId) return;
+    const drop = drops.find(d => d.id === timeEditingId);
+    if (drop) { drop.time = null; saveDrops(); }
+    closeTimeModal(); render(); toast('time cleared');
+  }
+  function toDatetimeLocal(ts) {
+    const d = new Date(ts);
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  function exportDrops() {
+    const blob = new Blob([JSON.stringify({drops, checks, exportedAt: new Date().toISOString()}, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `drop-backup-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast('exported');
+  }
+  function importDrops(file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!data.drops || !Array.isArray(data.drops)) throw new Error('invalid format');
+        if (!confirm(`Import ${data.drops.length} drops? This replaces current data.`)) return;
+        drops = data.drops;
+        checks = data.checks || {};
+        saveDrops(); saveChecks(); render();
+        toast('imported ' + data.drops.length + ' drops');
+      } catch (err) { toast('import failed: ' + err.message); }
+    };
+    reader.readAsText(file);
+  }
+
+  function requestNotifications() {
+    if (!('Notification' in window)) { toast('notifications not supported'); return; }
+    if (Notification.permission === 'granted') { toast('alerts already enabled'); return; }
+    Notification.requestPermission().then(p => {
+      if (p === 'granted') toast('alerts enabled');
+      else toast('alerts denied');
+    });
+  }
+  function fireNotification(title, body, dropId, url) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      const n = new Notification(title, { body, tag: dropId || 'drop-app', requireInteraction: true });
+      if (url) n.onclick = () => { window.focus(); window.open(url, '_blank'); n.close(); };
+    }
+    playBeep();
+  }
+
+  let toastTimeout = null;
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  function factoryReset() {
+    if (!confirm('Wipe ALL drops and start over?')) return;
+    if (!confirm('Are you sure? This cannot be undone.')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(CHECK_KEY);
+    localStorage.removeItem(NOTIFIED_KEY);
+    drops = loadDrops(); checks = {}; notified = {};
+    render(); toast('reset complete');
+  }
+
+  function tick() {
+    document.querySelectorAll('.countdown[data-time]').forEach(el => {
+      const t = parseInt(el.getAttribute('data-time'));
+      if (!t) return;
+      const cd = fmtCountdown(t);
+      if (el.textContent !== cd.text) {
+        el.textContent = cd.text;
+        el.className = 'countdown ' + cd.cls;
+      }
+    });
+    drops.forEach(d => {
+      if (!d.time) return;
+      const diff = d.time - Date.now();
+      if (diff <= 0 && diff > -10000 && !notified[d.id]) {
+        notified[d.id] = true;
+        saveNotified();
+        fireNotification('🔻 DROP LIVE: ' + d.title, 'Click to open the product page.', d.id, d.url);
+      }
+    });
+    const upcoming = drops.filter(d => getStatus(d) === 'upcoming' && d.time).sort((a,b) => a.time - b.time);
+    if (upcoming.length > 0) document.getElementById('stat-next').textContent = fmtCountdown(upcoming[0].time).text;
+  }
+
+  initTheme();
+  render();
+  setInterval(tick, 1000);
+  setInterval(render, 60000);
+
+  document.getElementById('theme-toggle').onclick = toggleTheme;
+  document.getElementById('add-btn').onclick = () => showAddForm();
+  document.getElementById('cancel-btn').onclick = hideAddForm;
+  document.getElementById('save-btn').onclick = saveFromForm;
+  document.getElementById('notify-btn').onclick = requestNotifications;
+  document.getElementById('export-btn').onclick = exportDrops;
+  document.getElementById('import-btn').onclick = () => document.getElementById('import-file').click();
+  document.getElementById('import-file').onchange = e => { if (e.target.files[0]) importDrops(e.target.files[0]); e.target.value = ''; };
+  document.getElementById('reset-btn').onclick = e => { e.preventDefault(); factoryReset(); };
+  document.getElementById('modal-save').onclick = saveModalTime;
+  document.getElementById('modal-clear').onclick = clearModalTime;
+  document.getElementById('modal-cancel').onclick = closeTimeModal;
+  document.getElementById('time-modal').onclick = e => { if (e.target.id === 'time-modal') closeTimeModal(); };
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      currentFilter = b.getAttribute('data-filter');
+      render();
+    };
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (document.getElementById('time-modal').classList.contains('open')) closeTimeModal();
+      else if (!document.getElementById('add-form').classList.contains('hidden')) hideAddForm();
+    }
+  });
+})();
+</script>
+</body>
+</html>
